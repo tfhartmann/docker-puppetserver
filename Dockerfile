@@ -1,19 +1,23 @@
-# Example built from a couple of sources
-FROM dockerfile/nodejs
+# Install Puppet Server
+FROM centos:centos6
 MAINTAINER Tim Hartmann <tfhartmann@gmail.com>
 
-RUN apt-get update
-RUN apt-get -y install wget python-dev g++ make libexpat1-dev libicu-dev redis-server
+RUN yum install epel-release -y
+RUN yum install http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm -y
+RUN yum install puppetserver -y
 
-RUN npm install --global coffee-script hubot@v2.7.5
-RUN hubot --create /opt/hubot
-WORKDIR /opt/hubot
-RUN npm install
-RUN npm install --save hubot-hipchat
-ADD add-hubot-scripts.sh /tmp/
+ADD conf/puppetserver /etc/sysconfig/puppetserver
 
-env   HUBOT_HIPCHAT_JID [asdfID]@chat.hipchat.com
-env   HUBOT_HIPCHAT_PASSWORD [your-password]
-env   HUBOT_AUTH_ADMIN [your name]
+#env   HUBOT_HIPCHAT_JID [asdfID]@chat.hipchat.com
+#env   HUBOT_HIPCHAT_PASSWORD [your-password]
+#env   HUBOT_AUTH_ADMIN [your name]
 
-CMD redis-server /etc/redis/redis.conf && /tmp/add-hubot-scripts.sh && bin/hubot --adapter hipchat
+ENV PUPPETSERVER_JAVA_ARGS="-Xms512m -Xmx512m"
+
+
+# Expose Puppet Master port
+EXPOSE 8140
+
+# Run Puppet Server
+CMD /usr/bin/puppetserver foreground
+
