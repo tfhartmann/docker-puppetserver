@@ -3,6 +3,22 @@
 This Image attempts to create a useable Puppet Master running the Puppetlabs
 PuppetServer (https://github.com/puppetlabs/puppet-server) Master.
 
+##  environment variables 
+### JAVA_ARGS
+You can update the JAVA_ARGS Setting by passing the PUPPETSERVER_JAVA_ARGS environment
+variable. 
+
+
+The default set in the Dockerfile is 512m
+PUPPETSERVER_JAVA_ARGS="-Xms512m -Xmx512m"
+
+To set JAVA_ARGS back to the PuppetLabs default use:
+
+```Shell
+docker run -it -d -e PUPPETSERVER_JAVA_ARGS="-Xms2g -Xmx2g -XX:MaxPermSize=256m" --name puppet -h puppet tfhartmann/puppetserver
+```
+
+
 ## Examples
 
 Run a puppet master useing the image defaults. This will run a local Puppet Server, exposing port 8140.
