@@ -8,7 +8,7 @@ RUN yum install epel-release -y && \
     gcc \
     make \
     ruby-devel
-RUN gem install hipchat
+RUN /usr/bin/puppetserver gem install hipchat
 
 ADD conf/puppetserver /etc/sysconfig/puppetserver
 ADD conf/autosign.conf /etc/puppet/autosign.conf
