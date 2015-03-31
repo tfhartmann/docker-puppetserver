@@ -49,8 +49,10 @@ Run a Puppet Server and test agent
 Start the Puppet Server:
 ```Shell
 docker run -it -d --name puppet -h puppet tfhartmann/puppetserver
+```
 
 Start the agent and run a puppet run (twice) 
+
 ```Shell
 docker run -it --link puppet:puppet tfhartmann/puppetserver /bin/bash
 [root@1de898077e80 /]# puppet agent --test && puppet agent --test
