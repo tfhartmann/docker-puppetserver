@@ -21,6 +21,7 @@ docker run -it -d -e PUPPETSERVER_JAVA_ARGS="-Xms2g -Xmx2g -XX:MaxPermSize=256m"
 
 ## Examples
 
+### `Basic Example`
 Run a puppet master useing the image defaults. This will run a local Puppet Server, exposing port 8140.
 The master will autosign certs.
 
@@ -28,7 +29,7 @@ The master will autosign certs.
 docker run -it -d --name puppet -h puppet tfhartmann/puppetserver
 ```
 
-
+### `shared /etc/puppet`
 Run a puppet server and mount your own /etc/puppet directory for testing. Keeping in mind this will
 overwrite any config file in /etc/puppet with (puppet.conf, auth.conf, and fileserver.conf etc) with
 whatever you have in your local directory.
@@ -40,21 +41,27 @@ docker run -d --name puppet -v /home/user/puppet:/etc/puppet -h puppet tfhartman
 Run Puppet Server interactivly, mounting your local puppet repo over /etc/puppet 
 In this case you'll also need to run "puppetserver foreground" to run the server
 
+#### `Interactive`
 ```Shell
 docker run -it --rm --name puppet -v /home/user/puppet:/etc/puppet -h puppet tfhartmann/puppetserver /bin/bash
 ```
 
-Run a Puppet Server and test agent
+### `Run a Puppet Server and test agent`
 
 Start the Puppet Server:
 ```Shell
 docker run -it -d --name puppet -h puppet tfhartmann/puppetserver
 ```
 
-Start the agent and run a puppet run (twice) 
+Now start and link the agent and run a puppet run (twice) 
 
 ```Shell
 docker run -it --link puppet:puppet tfhartmann/puppetserver /bin/bash
+```
+
+Your output should looks something like this:
+
+```Shell
 [root@1de898077e80 /]# puppet agent --test && puppet agent --test
 Info: Creating a new SSL key for 1de898077e80.example.com
 Info: Caching certificate for ca
