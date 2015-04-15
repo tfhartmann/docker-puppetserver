@@ -13,6 +13,8 @@ RUN /usr/bin/puppetserver gem install hipchat
 
 ADD conf/puppetserver /etc/sysconfig/puppetserver
 ADD conf/autosign.conf /etc/puppet/autosign.conf
+ADD conf/bootstrap-ca-disabled.cfg /tmp/bootstrap-ca-disabled.cfg
+ADD scripts/start_puppetserver.sh /tmp/start_puppetserver.sh
 
 ENV PUPPETSERVER_JAVA_ARGS="-Xms512m -Xmx512m"
 
@@ -20,5 +22,5 @@ ENV PUPPETSERVER_JAVA_ARGS="-Xms512m -Xmx512m"
 EXPOSE 8140
 
 # Run Puppet Server
-CMD [ "/usr/bin/puppetserver", "foreground" ]
+CMD [ "/tmp/start_puppetserver.sh" ]
 
