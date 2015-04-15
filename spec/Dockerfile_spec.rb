@@ -27,6 +27,13 @@ describe "Dockerfile" do
     expect(package("ruby-devel")).to be_installed
   end
 
+  it "includes the required files" do
+    expect(file("/etc/sysconfig/puppetserver")).to be_file
+    expect(file("/etc/puppet/autosign.conf")).to be_file
+    expect(file("/tmp/bootstrap-ca-disabled.cfg")).to be_file
+    expect(file("/tmp/start_puppetserver.sh")).to be_file
+  end
+
   # Ensure start_puppetserver.sh Runs
   describe command('/tmp/start_puppetserver.sh') do
     its(:exit_status) { should eq 0 }
