@@ -11,7 +11,9 @@ describe "Dockerfile" do
     set :backend, :docker
     set :docker_image, image.id
   end
-
+  after(:all) do
+    image.remove
+  end
   it "installs the right version of CentOS" do
     expect(os_version).to include("CentOS")
   end
@@ -43,4 +45,5 @@ describe "Dockerfile" do
   def os_version
     command("cat /etc/redhat-release").stdout
   end
+
 end
